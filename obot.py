@@ -30,7 +30,8 @@ def description(bot, update):
     else:
         text = "Commands: \n\n" \
                "/first\n" \
-               "/next 26\n" \
+               "/nth 26\n" \
+               "/whd 02.01.2018\n" \
                "/rewr 02.01.2018"
     bot.send_message(chat_id=chat_id, text=text)
 
@@ -46,7 +47,7 @@ def rewr(bot, update):
         print('query:', query)
         query = query.split()
         try:
-            query = ' '.join(query[1:])
+            query = query[1]
         except IndexError:
             query = ''
         reply = rewrite_file(query)
@@ -87,6 +88,25 @@ def nth(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 
 
+def whd(bot, update):
+    # /nth 26
+    chat_id = update.message.chat_id
+    if not is_authorized(chat_id):
+        reply = NOAUTH
+        print(ATTEMPT % (chat_id, '/slew'))
+    else:
+        query = update['message']['text']
+        print('query:', query)
+        query = query.split()
+        try:
+            query = query[1]
+        except IndexError:
+            query = ''
+        reply = which_day(query)
+        print('reply:', reply, '\n')
+    bot.send_message(chat_id=chat_id, text=reply)
+
+
 if __name__ == '__main__':
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
@@ -96,11 +116,13 @@ if __name__ == '__main__':
     rewr_handler = CommandHandler('rewr', rewr)
     first_handler = CommandHandler('first', first)
     nth_handler = CommandHandler('nth', nth)
+    whd_handler = CommandHandler('whd', whd)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(rewr_handler)
     dispatcher.add_handler(first_handler)
     dispatcher.add_handler(nth_handler)
+    dispatcher.add_handler(whd_handler)
 
     updater.start_polling()

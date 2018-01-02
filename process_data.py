@@ -11,7 +11,8 @@ def date_to_string(date):
 
 
 def string_to_date(raw_date):
-    if raw_date == 'today':
+    raw_date = raw_date.strip()
+    if raw_date == 'today' or not raw_date:
         return datetime.today()
 
     try:
@@ -58,3 +59,15 @@ def string_to_delta(raw_delta):
         return
     return timedelta(delta)
 
+
+def delta_to_string(delta):
+    lapse = delta.days
+    if lapse == 1:
+        inflection = 'st'
+    elif lapse == 2:
+        inflection = 'nd'
+    elif lapse == 3:
+        inflection = 'rd'
+    else:
+        inflection = 'th'
+    return "%d%s day" % (lapse, inflection)

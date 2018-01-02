@@ -4,4 +4,4 @@ from process_commands import *
 
 # print(see_first())
 
-print(get_next(' '))
+print(which_day('1'))
