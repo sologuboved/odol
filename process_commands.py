@@ -68,4 +68,3 @@ def which_day(user_input):
         return INVALID_INPUT
     lapse = new_date - first_date + timedelta(1)
     return delta_to_string(lapse)
-

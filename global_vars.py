@@ -3,4 +3,3 @@ INVALID_INPUT = "Invalid input!"
 NOT_FOUND = "File not found!"
 NO_SENSE = "First date makes no sense or is missing!"
 DEFAULT = 25
-
