@@ -18,13 +18,14 @@ def read_out():
 
 
 def rewrite_file(user_input):
-    date = date_to_string(string_to_date(user_input))
-    if not date:
+    date = string_to_date(user_input)
+    str_date = date_to_string(date)
+    if not str_date:
         return INVALID_INPUT
     try:
         with open(FILENAME, 'w') as handler:
-            handler.write(date)
-            return ALRIGHT
+            handler.write(str_date)
+            return "Wrote in %s" % process_output(date)
     except FileNotFoundError:
         return NOT_FOUND
 
