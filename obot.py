@@ -68,8 +68,8 @@ def first(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 
 
-def nxt(bot, update):
-    # /next 26
+def nth(bot, update):
+    # /nth 26
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
         reply = NOAUTH
@@ -82,7 +82,7 @@ def nxt(bot, update):
             query = query[1]
         except IndexError:
             query = ''
-        reply = get_next(query)
+        reply = get_nth(query)
         print('reply:', reply, '\n')
     bot.send_message(chat_id=chat_id, text=reply)
 
@@ -95,12 +95,12 @@ if __name__ == '__main__':
     help_handler = CommandHandler('help', description)
     rewr_handler = CommandHandler('rewr', rewr)
     first_handler = CommandHandler('first', first)
-    nxt_handler = CommandHandler('next', nxt)
+    nth_handler = CommandHandler('nth', nth)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(rewr_handler)
     dispatcher.add_handler(first_handler)
-    dispatcher.add_handler(nxt_handler)
+    dispatcher.add_handler(nth_handler)
 
     updater.start_polling()

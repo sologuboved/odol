@@ -39,7 +39,7 @@ def see_first():
     return process_output(date)
 
 
-def get_next(user_input):
+def get_nth(user_input):
     lapse = string_to_delta(user_input)
     if not lapse:
         return INVALID_INPUT
@@ -51,5 +51,4 @@ def get_next(user_input):
         return NO_SENSE
     forecast = date + lapse - timedelta(1)
     return date_to_string(forecast)
-
 
