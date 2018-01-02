@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from global_vars import DEFAULT
 DOT = '.'
 
 
@@ -43,4 +44,17 @@ def string_to_date(raw_date):
         return datetime(this_year, *date)
     except (TypeError, ValueError):
         return
+
+
+def string_to_delta(raw_delta):
+    raw_delta = raw_delta.strip()
+    if not raw_delta:
+        return timedelta(DEFAULT)
+    try:
+        delta = int(raw_delta.strip())
+        if delta <= 0:
+            return
+    except ValueError:
+        return
+    return timedelta(delta)
 

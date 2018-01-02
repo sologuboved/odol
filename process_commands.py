@@ -40,5 +40,16 @@ def see_first():
 
 
 def get_next(user_input):
-    pass
+    lapse = string_to_delta(user_input)
+    if not lapse:
+        return INVALID_INPUT
+    raw_date = read_out()
+    if raw_date == NOT_FOUND:
+        return NOT_FOUND
+    date = string_to_date(raw_date)
+    if not date:
+        return NO_SENSE
+    forecast = date + lapse - timedelta(1)
+    return date_to_string(forecast)
+
 
