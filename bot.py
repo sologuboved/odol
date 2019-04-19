@@ -3,6 +3,7 @@
 from telegram.ext import Updater, CommandHandler
 from tkn import TOKEN, MY_ID
 from process_commands import *
+from pid_operations import write_pid
 
 NOAUTH = "This is a private bot"
 ATTEMPT = "%d attempted %s"
@@ -108,6 +109,8 @@ def whd(bot, update):
 
 
 if __name__ == '__main__':
+    write_pid()
+
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
 
