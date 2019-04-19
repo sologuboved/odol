@@ -90,7 +90,7 @@ def nth(bot, update):
 
 
 def whd(bot, update):
-    # /nth 26
+    # /whd
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
         reply = NOAUTH
@@ -108,9 +108,21 @@ def whd(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 
 
-if __name__ == '__main__':
-    write_pid()
+def surv(bot, update):
+    # /surv
+    chat_id = update.message.chat_id
+    if not is_authorized(chat_id):
+        reply = NOAUTH
+        print(ATTEMPT % (chat_id, '/slew'))
+    else:
+        query = update['message']['text']
+        print('query:', query)
+        reply = see_all()
+        print('reply:', reply, '\n')
+    bot.send_message(chat_id=chat_id, text=reply)
 
+
+def main():
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
 
@@ -120,6 +132,7 @@ if __name__ == '__main__':
     first_handler = CommandHandler('first', first)
     nth_handler = CommandHandler('nth', nth)
     whd_handler = CommandHandler('whd', whd)
+    surv_handler = CommandHandler('surv', surv)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
@@ -127,5 +140,11 @@ if __name__ == '__main__':
     dispatcher.add_handler(first_handler)
     dispatcher.add_handler(nth_handler)
     dispatcher.add_handler(whd_handler)
+    dispatcher.add_handler(surv_handler)
 
     updater.start_polling()
+
+
+if __name__ == '__main__':
+    write_pid()
+    main()

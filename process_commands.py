@@ -12,7 +12,7 @@ def process_output(date):
 def read_out():
     try:
         with open(FILENAME) as handler:
-            return handler.readline().strip()
+            return handler.readlines()[-1].strip()
     except FileNotFoundError:
         return NOT_FOUND
 
@@ -23,8 +23,8 @@ def rewrite_file(user_input):
     if not str_date:
         return INVALID_INPUT
     try:
-        with open(FILENAME, 'w') as handler:
-            handler.write(str_date)
+        with open(FILENAME, 'a') as handler:
+            handler.write('{}\n'.format(str_date))
             return "Wrote in %s" % process_output(date)
     except FileNotFoundError:
         return NOT_FOUND
@@ -68,3 +68,15 @@ def which_day(user_input):
         return INVALID_INPUT
     lapse = new_date - first_date + timedelta(1)
     return delta_to_string(lapse)
+
+
+def see_all():
+    try:
+        with open(FILENAME) as handler:
+            return ''.join(handler.readlines()).strip()
+    except FileNotFoundError:
+        return NOT_FOUND
+
+
+if __name__ == '__main__':
+    print(see_all())
