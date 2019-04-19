@@ -76,7 +76,3 @@ def see_all():
             return ''.join(handler.readlines()).strip()
     except FileNotFoundError:
         return NOT_FOUND
-
-
-if __name__ == '__main__':
-    print(see_all())
