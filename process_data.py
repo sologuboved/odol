@@ -3,11 +3,17 @@ from global_vars import DEFAULT
 DOT = '.'
 
 
-def date_to_string(date):
+def date_to_string(date, to_file=False):
     try:
-        return date.strftime("%d.%m.%Y")
+        if to_file:
+            return date.strftime("%d.%m.%Y")
+        else:
+            return date.strftime("%d %B %Y, %A")
     except AttributeError:
-        return
+        if to_file:
+            return
+        else:
+            return date
 
 
 def string_to_date(raw_date):
@@ -61,7 +67,10 @@ def string_to_delta(raw_delta):
 
 
 def delta_to_string(delta):
-    lapse = delta.days
+    try:
+        lapse = delta.days
+    except AttributeError:
+        return delta
     if lapse == 1:
         inflection = 'st'
     elif lapse == 2:
@@ -70,4 +79,4 @@ def delta_to_string(delta):
         inflection = 'rd'
     else:
         inflection = 'th'
-    return "%d%s day" % (lapse, inflection)
+    return "{}{} day".format(lapse, inflection)

@@ -65,7 +65,7 @@ def first(bot, update):
     else:
         query = update['message']['text']
         print('query:', query)
-        reply = see_first()
+        reply = date_to_string(see_first())
         print('reply:\n', reply, '\n')
     bot.send_message(chat_id=chat_id, text=reply)
 
@@ -84,7 +84,7 @@ def nth(bot, update):
             query = query[1]
         except IndexError:
             query = ''
-        reply = get_nth(query)
+        reply = date_to_string(get_nth(query))
         print('reply:', reply, '\n')
     bot.send_message(chat_id=chat_id, text=reply)
 
@@ -102,8 +102,8 @@ def whd(bot, update):
         try:
             query = query[1]
         except IndexError:
-            query = ''
-        reply = which_day(query)
+            query = str()
+        reply = delta_to_string(which_day(query))
         print('reply:', reply, '\n')
     bot.send_message(chat_id=chat_id, text=reply)
 
@@ -117,7 +117,12 @@ def surv(bot, update):
     else:
         query = update['message']['text']
         print('query:', query)
-        reply = see_all()
+        query = query.split()
+        try:
+            query = query[1]
+        except IndexError:
+            query = str()
+        reply = see_all(query)
         print('reply:', reply, '\n')
     bot.send_message(chat_id=chat_id, text=reply)
 

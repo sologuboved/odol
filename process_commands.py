@@ -2,13 +2,6 @@ from global_vars import *
 from process_data import *
 
 
-def process_output(date):
-    try:
-        return date.strftime("%d %B %Y, %A")
-    except AttributeError:
-        return None
-
-
 def read_out():
     try:
         with open(FILENAME) as handler:
@@ -19,13 +12,13 @@ def read_out():
 
 def rewrite_file(user_input):
     date = string_to_date(user_input)
-    str_date = date_to_string(date)
+    str_date = date_to_string(date, to_file=True)
     if not str_date:
         return INVALID_INPUT
     try:
         with open(FILENAME, 'a') as handler:
             handler.write('{}\n'.format(str_date))
-            return "Wrote in %s" % process_output(date)
+            return "Wrote in %s" % date_to_string(date)
     except FileNotFoundError:
         return NOT_FOUND
 
@@ -37,7 +30,7 @@ def see_first():
     date = string_to_date(raw_date)
     if not date:
         return NO_SENSE
-    return process_output(date)
+    return date
 
 
 def get_nth(user_input):
@@ -50,8 +43,7 @@ def get_nth(user_input):
     date = string_to_date(raw_date)
     if not date:
         return NO_SENSE
-    forecast = date + lapse - timedelta(1)
-    return process_output(forecast)
+    return date + lapse - timedelta(1)
 
 
 def which_day(user_input):
@@ -66,13 +58,17 @@ def which_day(user_input):
         return NO_SENSE
     if new_date <= first_date:
         return INVALID_INPUT
-    lapse = new_date - first_date + timedelta(1)
-    return delta_to_string(lapse)
+    return new_date - first_date + timedelta(1)
 
 
-def see_all():
+def see_all(user_input):
     try:
         with open(FILENAME) as handler:
-            return ''.join(handler.readlines()).strip()
+            lines = handler.readlines()
+            try:
+                start = int(user_input)
+            except (ValueError, TypeError):
+                start = 0
+            return ''.join(lines[-start:]).strip()
     except FileNotFoundError:
         return NOT_FOUND
