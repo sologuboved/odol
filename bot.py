@@ -13,17 +13,17 @@ def is_authorized(chat_id):
     return chat_id == MY_ID
 
 
-def start(bot, update):
+def start(update, context):
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
         text = NOAUTH
         print(ATTEMPT % (chat_id, '/start'))
     else:
         text = "=-*=-*-=*-="
-    bot.send_message(chat_id=chat_id, text=text)
+    context.bot.send_message(chat_id=chat_id, text=text)
 
 
-def description(bot, update):
+def description(update, context):
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
         text = NOAUTH
@@ -34,10 +34,10 @@ def description(bot, update):
                "/nth 26\n" \
                "/whd 02.01.2018\n" \
                "/rewr 02.01.2018"
-    bot.send_message(chat_id=chat_id, text=text)
+    context.bot.send_message(chat_id=chat_id, text=text)
 
 
-def rewr(bot, update):
+def rewr(update, context):
     # /rewr 02.01.2018
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
@@ -53,10 +53,10 @@ def rewr(bot, update):
             query = ''
         reply = rewrite_file(query)
         print('reply:', reply, '\n')
-    bot.send_message(chat_id=chat_id, text=reply)
+    context.bot.send_message(chat_id=chat_id, text=reply)
 
 
-def first(bot, update):
+def first(update, context):
     # /first
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
@@ -67,10 +67,10 @@ def first(bot, update):
         print('query:', query)
         reply = date_to_string(see_first())
         print('reply:\n', reply, '\n')
-    bot.send_message(chat_id=chat_id, text=reply)
+    context.bot.send_message(chat_id=chat_id, text=reply)
 
 
-def nth(bot, update):
+def nth(update, context):
     # /nth 26
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
@@ -86,10 +86,10 @@ def nth(bot, update):
             query = ''
         reply = date_to_string(get_nth(query))
         print('reply:', reply, '\n')
-    bot.send_message(chat_id=chat_id, text=reply)
+    context.bot.send_message(chat_id=chat_id, text=reply)
 
 
-def whd(bot, update):
+def whd(update, context):
     # /whd
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
@@ -105,10 +105,10 @@ def whd(bot, update):
             query = str()
         reply = delta_to_string(which_day(query))
         print('reply:', reply, '\n')
-    bot.send_message(chat_id=chat_id, text=reply)
+    context.bot.send_message(chat_id=chat_id, text=reply)
 
 
-def surv(bot, update):
+def surv(update, context):
     # /surv
     chat_id = update.message.chat_id
     if not is_authorized(chat_id):
@@ -124,11 +124,11 @@ def surv(bot, update):
             query = str()
         reply = see_all(query)
         print('reply:', reply, '\n')
-    bot.send_message(chat_id=chat_id, text=reply)
+    context.bot.send_message(chat_id=chat_id, text=reply)
 
 
 def main():
-    updater = Updater(token=TOKEN)
+    updater = Updater(token=TOKEN, use_context=True)
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)
