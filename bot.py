@@ -3,7 +3,7 @@
 from telegram.ext import Updater, CommandHandler
 from tkn import TOKEN, MY_ID
 from process_commands import *
-from pid_operations import write_pid
+from helpers import write_pid
 
 NOAUTH = "This is a private bot"
 ATTEMPT = "%d attempted %s"

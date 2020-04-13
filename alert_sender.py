@@ -1,10 +1,8 @@
-import schedule
-import time
 from telegram import Bot
-from tkn import *
+from tkn import TOKEN, MY_ID
 from process_commands import which_day
 from process_data import delta_to_string
-from pid_operations import write_pid
+from helpers import write_pid, delete_pid
 
 
 def send_alert():
@@ -22,9 +20,6 @@ def send_alert():
 
 
 if __name__ == '__main__':
-    write_pid()
-    print("Launching alert sender... ")
-    schedule.every().day.at('09:00').do(send_alert)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    pid_fname = write_pid()
+    send_alert()
+    delete_pid(pid_fname)
